@@ -64,8 +64,8 @@ public:
 	//UPROPERTY(EditAnywhere, Category = "Server Settings", meta = (DisplayName = "DTrack Server IP", ToolTip = "IP of DTrack server host for starting measurement"))
 	FString m_dtrack_server_ip = "127.0.0.1";
 
-	//UPROPERTY(EditAnywhere, Category = "Server Settings", meta = (DisplayName = "DTrack Room Calibration", ToolTip = "Set this according to your DTrack system's room calibration"))
-	EDTrackCoordinateSystemType m_coordinate_system = EDTrackCoordinateSystemType::CST_Unreal_Adapted;
+	UPROPERTY(EditAnywhere, Category = "Server Settings", meta = (DisplayName = "DTrack Room Calibration", ToolTip = "Set this according to your DTrack system's room calibration"))
+	EDTrackCoordinateSystemType m_coordinate_system = EDTrackCoordinateSystemType::CST_Powerwall;
 };
 
 UCLASS()

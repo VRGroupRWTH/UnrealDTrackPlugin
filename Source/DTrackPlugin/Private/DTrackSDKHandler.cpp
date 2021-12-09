@@ -35,21 +35,27 @@
  * FDTrackSDKHandler static const variable initialization
  */
 
-const FMatrix FDTrackSDKHandler::m_trafo_normal = FMatrix(FPlane(0.0f, 1.0f, 0.0f, 0.0f)
+// (X,Y,Z) -> (Y,X,Z)
+const FMatrix FDTrackSDKHandler::m_trafo_normal = FMatrix(
+	  FPlane(0.0f, 1.0f, 0.0f, 0.0f)
 	, FPlane(1.0f, 0.0f, 0.0f, 0.0f)
 	, FPlane(0.0f, 0.0f, 1.0f, 0.0f)
 	, FPlane(0.0f, 0.0f, 0.0f, 1.0f));
 
 const FMatrix FDTrackSDKHandler::m_trafo_normal_transposed(m_trafo_normal.GetTransposed());
 
-const FMatrix FDTrackSDKHandler::m_trafo_powerwall = FMatrix(FPlane(0.0f, 0.0f, -1.0f, 0.0f)
+// (X,Y,Z) -> (-Z, X, Y)
+const FMatrix FDTrackSDKHandler::m_trafo_powerwall = FMatrix(
+	  FPlane(0.0f, 0.0f, -1.0f, 0.0f)
 	, FPlane(1.0f, 0.0f, 0.0f, 0.0f)
 	, FPlane(0.0f, 1.0f, 0.0f, 0.0f)
 	, FPlane(0.0f, 0.0f, 0.0f, 1.0f));
 
 const FMatrix FDTrackSDKHandler::m_trafo_powerwall_transposed(m_trafo_powerwall.GetTransposed());
 
-const FMatrix FDTrackSDKHandler::m_trafo_unreal_adapted = FMatrix(FPlane(1.0f, 0.0f, 0.0f, 0.0f)
+// (X,Y,Z) -> (X,-Y,Z)
+const FMatrix FDTrackSDKHandler::m_trafo_unreal_adapted = FMatrix(
+	  FPlane(1.0f, 0.0f, 0.0f, 0.0f)
 	, FPlane(0.0f, -1.0f, 0.0f, 0.0f)
 	, FPlane(0.0f, 0.0f, 1.0f, 0.0f)
 	, FPlane(0.0f, 0.0f, 0.0f, 1.0f));

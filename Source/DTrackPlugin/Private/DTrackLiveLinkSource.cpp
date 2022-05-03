@@ -73,7 +73,7 @@ FText FDTrackLiveLinkSource::GetSourceStatus() const {
 
 
 
-#if ENGINE_MINOR_VERSION >= 24
+#if ENGINE_MINOR_VERSION >= 24 || ENGINE_MAJOR_VERSION >= 5
 	TSubclassOf<ULiveLinkSourceSettings>  FDTrackLiveLinkSource::GetSettingsClass() const {
 		return UDTrackLiveLinkSourceSettings::StaticClass();
 	}

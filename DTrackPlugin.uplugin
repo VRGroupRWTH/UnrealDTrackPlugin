@@ -12,6 +12,7 @@
 	"SupportURL": "https://ar-tracking.com/",
 	"CanContainContent": false,
 	"Installed" : true,
+	"EnabledByDefault" : true,
 	"Modules": [
 		{
 			"Name": "DTrackPlugin",

@@ -121,8 +121,19 @@ void FDTrackLiveLinkSource::handle_body_data_anythread(double n_worldtime, doubl
 		}
 		else {
 
+			FString subject_name;
+			std::string body_name = "";
+			if(m_sdk_handler->get_body_name(n_itemId, body_name))
+			{
+				body_name.erase(std::remove(body_name.begin(), body_name.end(), '\"'), body_name.end()); //Removing quotes
+				subject_name = UTF8_TO_TCHAR(body_name.c_str());
+			}
+			else
+			{
+				subject_name = FString::Printf(TEXT("Unknown-DTrack-Body-%02d"), n_itemId);
+			}
+
 			//Body data always consists of Location and Rotation. No need to make verification to resend static data
-			const FString subject_name = FString::Printf(TEXT("DTrack-Body-%02d"), n_itemId);
 			key = FLiveLinkSubjectKey(m_source_guid, *subject_name);
 			m_body_subjects.Add(n_itemId, key);
 
@@ -213,7 +224,6 @@ void FDTrackLiveLinkSource::handle_flystick_input_anythread(double n_worldtime, 
 			}
 		}
 		else {
-
 			const FString subject_name = FString::Printf(TEXT("DTrack-FlystickInput-%02d"), n_itemId);
 			key = FLiveLinkSubjectKey(m_source_guid, *subject_name);
 			m_flystick_input_subjects.Add(n_itemId, key);

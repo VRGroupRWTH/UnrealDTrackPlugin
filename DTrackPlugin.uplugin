@@ -1,7 +1,7 @@
 {
-	"FileVersion": 1,
+	"FileVersion": 3,
 	"Version": 1,
-	"VersionName": "0.7.3",
+	"VersionName": "0.8.0",
 	"FriendlyName": "DTrack Plugin",
 	"Description": "Plugin for the ART DTrack tracking system.",
 	"Category": "Virtual Production",
@@ -18,11 +18,13 @@
 			"Name": "DTrackPlugin",
 			"Type": "Runtime",
 			"WhitelistPlatforms": [ "Win64" , "Linux" ]
+			"LoadingPhase": "Default",
 		},
 		{
 			"Name": "DTrackInput",
 			"Type": "Runtime",
 			"WhitelistPlatforms": [ "Win64" , "Linux" ]
+			"LoadingPhase": "Default",
 		}
 	],
 	"Plugins": [

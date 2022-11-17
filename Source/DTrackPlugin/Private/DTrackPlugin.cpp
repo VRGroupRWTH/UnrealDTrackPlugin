@@ -63,7 +63,6 @@ bool FDTrackPlugin::is_livelink_source_valid() const {
 TSharedPtr<FDTrackLiveLinkSource> FDTrackPlugin::create_livelink_source() {
 
 	if (!m_livelink_source.IsValid()) {
-
 		m_livelink_source = MakeShared<FDTrackLiveLinkSource>();
 	}
 

@@ -47,13 +47,13 @@ public:
 
 	// id of this flystick
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Flystick")
-	int32 m_flystick_id;
+	int32 m_flystick_id = 0;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Flystick")
-	int32 m_button_count;
+	int32 m_button_count = 0;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Flystick")
-	int32 m_joystick_count;
+	int32 m_joystick_count = 0;
 };
 
 /**

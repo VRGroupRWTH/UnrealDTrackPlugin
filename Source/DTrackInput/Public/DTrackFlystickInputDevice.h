@@ -106,4 +106,8 @@ protected:
 
 	/** Delay before sending a repeat message after a button has been pressed for a while */
 	float m_button_repeat_delay;
+
+	FPlatformUserId user_id;
+
+	FInputDeviceId device_id;
 };

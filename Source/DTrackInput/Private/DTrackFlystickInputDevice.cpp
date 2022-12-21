@@ -64,6 +64,9 @@ FDTrackFlystickInputDevice::FDTrackFlystickInputDevice(const TSharedRef< FGeneri
 
 	m_joystick_mapping.Add( FDTrackInputModule::FlystickThumbstickX.GetFName() );
 	m_joystick_mapping.Add( FDTrackInputModule::FlystickThumbstickY.GetFName() );
+
+	user_id = IPlatformInputDeviceMapper::Get().GetPrimaryPlatformUser();
+	device_id = IPlatformInputDeviceMapper::Get().GetDefaultInputDevice();
 }
 
 FDTrackFlystickInputDevice::~FDTrackFlystickInputDevice() {
@@ -104,6 +107,8 @@ void FDTrackFlystickInputDevice::SendControllerEvents() {
 				flystick_state.m_is_initialized = true;
 			}
 
+			device_id = FInputDeviceId::CreateFromInternalId((int32) flystick_static_data->m_flystick_id);
+
 			//Process buttons
 			for (int32 i = 0; i < flystick_frame_data->m_button_state.Num(); ++i) 
 			{
@@ -115,10 +120,10 @@ void FDTrackFlystickInputDevice::SendControllerEvents() {
 					//	*flystick_name.ToString(), flystick_static_data->m_flystick_id, i, int( ! flystick_state.m_buttons_state[i] ) );
 
 					if (current_button_state)	{
-						m_message_handler->OnControllerButtonPressed(m_button_mapping[i], flystick_static_data->m_flystick_id, false);
+						m_message_handler->OnControllerButtonPressed(m_button_mapping[i], user_id, device_id, false);
 					}
 					else {
-						m_message_handler->OnControllerButtonReleased(m_button_mapping[i], flystick_static_data->m_flystick_id, false);
+						m_message_handler->OnControllerButtonReleased(m_button_mapping[i], user_id, device_id, false);
 					}
 
 					if (current_button_state) {
@@ -128,7 +133,7 @@ void FDTrackFlystickInputDevice::SendControllerEvents() {
 					flystick_state.m_buttons_state[i] = current_button_state;
 				}
 				else if (current_button_state && flystick_state.m_buttons_repeat_time[i] < current_time) {
-					m_message_handler->OnControllerButtonPressed(m_button_mapping[i], flystick_static_data->m_flystick_id, true);
+					m_message_handler->OnControllerButtonPressed(m_button_mapping[i], user_id, device_id, true);
 
 					flystick_state.m_buttons_repeat_time[i] = current_time + m_button_repeat_delay;
 				}
@@ -145,7 +150,7 @@ void FDTrackFlystickInputDevice::SendControllerEvents() {
 				if (current_joystick_state != flystick_state.m_joysticks_state[i])
 				{
 					flystick_changed = true;
-					m_message_handler->OnControllerAnalog( m_joystick_mapping[i], flystick_static_data->m_flystick_id, current_joystick_state);
+					m_message_handler->OnControllerAnalog( m_joystick_mapping[i], user_id, device_id, current_joystick_state);
 					flystick_state.m_joysticks_state[i] = current_joystick_state;
 				}
 			}
@@ -194,7 +199,7 @@ void FDTrackFlystickInputDevice::on_livelink_subject_added_handler(FLiveLinkSubj
 	}
 
 	TSubclassOf<ULiveLinkRole> subject_role = m_livelink_client->GetSubjectRole_AnyThread(n_subject_key);
-	if (subject_role->IsChildOf(UDTrackFlystickInputRole::StaticClass()))
+	if (subject_role && subject_role->IsChildOf(UDTrackFlystickInputRole::StaticClass()))
 	{
 		m_flysticks.Add(n_subject_key);
 		m_flystick_state.Add(n_subject_key.SubjectName);

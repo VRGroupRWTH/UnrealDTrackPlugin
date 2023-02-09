@@ -1,11 +1,11 @@
-# DTrack Plugin for Unreal Engine 4/5
+# DTrack Plugin for Unreal Engine 5.1
 
 This is a plug-in for the Unreal Engine with the purpose of native integration of the [Advanded Realtime Tracking][1] _DTrack_ tracking solutions. It injects data into the engine through LiveLink. Data can be accessed through Blueprint or C++. The plugin currently supports the DTrack body`6d`and flystick`6df2`data format.
 
 
 ## Prerequisites
 
-- Unreal Engine 4 (4.23 or later), Unreal Engine 5 (5.0.2 or later)
+- Unreal Engine 5 (5.1 or later)
 - Windows
 - Microsoft Visual Studio. See the [Unreal documentation][2] for selecting and installing the correct version.
 

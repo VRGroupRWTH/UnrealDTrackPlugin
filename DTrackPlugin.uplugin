@@ -12,18 +12,19 @@
 	"SupportURL": "https://ar-tracking.com/",
 	"CanContainContent": false,
 	"Installed": true,
+	"EnabledByDefault" : true,
 	"Modules": [
 		{
 			"Name": "DTrackPlugin",
 			"Type": "Runtime",
 			"LoadingPhase": "Default",
-			"WhitelistPlatforms": [ "Win64" ]
+			"WhitelistPlatforms": [ "Win64", "Linux" ]
 		},
 		{
 			"Name": "DTrackInput",
 			"Type": "Runtime",
 			"LoadingPhase": "Default",
-			"WhitelistPlatforms": [ "Win64" ]
+			"WhitelistPlatforms": [ "Win64", "Linux" ]
 		}
 	],
 	"Plugins": [

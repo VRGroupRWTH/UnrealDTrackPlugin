@@ -42,13 +42,13 @@ UENUM(BlueprintType, Category=DTrack)
 enum class EDTrackCoordinateSystemType : uint8 {
 
 	/// The normal setting. Right handed, Z is up and Y is front 
-	CST_Normal     UMETA(DisplayName = "DTrack Normal"),
+	CST_Normal     UMETA(DisplayName = "DTrack Normal", ToolTip = "Right handed, Z is up and Y is front"),
 
 	/// Powerwall default setting with Y as up
-	CST_Powerwall  UMETA(DisplayName = "DTrack Powerwall"),
+	CST_Powerwall  UMETA(DisplayName = "DTrack Powerwall", ToolTip = "Right handed, Y is up and X is right"),
 
 	/// Right handed with Z as up and X as front
-	CST_Unreal_Adapted    UMETA(DisplayName = "DTrack Unreal Adapted")
+	CST_Unreal_Adapted    UMETA(DisplayName = "DTrack Unreal Adapted", ToolTip = "Right handed, Z as up and X as front")
 };
 
 

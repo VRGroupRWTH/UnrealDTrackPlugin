@@ -7,19 +7,15 @@ This is a plug-in for the Unreal Engine with the purpose of native integration o
 
 - Unreal Engine 4 (4.23 or later), Unreal Engine 5 (5.0 or later)
 - Windows
+- Linux
 - Microsoft Visual Studio. See the [Unreal documentation][2] for selecting and installing the correct version.
 
 
 ## Installation
 
-### Preparation
-
-- The plugin is prepared to run with Unreal Engine 5. If you want to use it with Unreal Engine 4, you have to manually remove the entry _"LiveLinkAnimationCore",_ from the file _Source\DTrackPlugin\DTrackPlugin.Build.cs_.
-
-
 ### Install into the global Engine plugin folder
 - Compile the plugin manually:
-  <br> *&lt;UEDir&gt;\Engine\Build\BatchFiles\\*__RunUAT.bat__ &nbsp;__BuildPlugin__ __-Plugin=__*\Path\to\DTrackPlugin.uplugin* __-TargetPlatforms=__*Win64* __-Package=__*&lt;OutDir&gt;* __-Rocket__ __-VS20*XY*__
+  <br> *&lt;UEDir&gt;\Engine\Build\BatchFiles\\*__RunUAT.bat__ &nbsp;__BuildPlugin__ __-Plugin=__*\Path\to\DTrackPlugin.uplugin* __-TargetPlatforms=__*Win64/Linux* __-Package=__*&lt;OutDir&gt;* __-Rocket__ __-VS20*XY*__
   <br> Here *-VS20XY* designates the Visual Studio version chosen above (e.g. -VS2022).
 - Copy the folder *&lt;OutDir&gt;* to *&lt;UE4Dir&gt;\Engine\Plugins\DTrackPlugin*
 

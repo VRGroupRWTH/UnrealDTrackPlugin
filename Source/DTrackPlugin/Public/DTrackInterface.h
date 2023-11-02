@@ -40,7 +40,6 @@
  */
 UENUM(BlueprintType, Category=DTrack)
 enum class EDTrackCoordinateSystemType : uint8 {
-
 	/// The normal setting. Right handed, Z is up and Y is front 
 	CST_Normal     UMETA(DisplayName = "DTrack Normal"),
 

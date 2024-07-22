@@ -27,6 +27,7 @@
 #include "DTrackSDKHandler.h"
 
 #include "DTrackLiveLinkSource.h"
+#include "DTrackPlugin.h"
 #include "HAL/RunnableThread.h"
 #include "Math/UnrealMathUtility.h"
 

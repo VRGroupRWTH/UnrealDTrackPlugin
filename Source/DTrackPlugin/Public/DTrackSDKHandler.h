@@ -31,13 +31,17 @@
 #if PLATFORM_WINDOWS
     // Avoid 'warning C4005' when including DTrackSDK
     #include "Windows/AllowWindowsPlatformTypes.h"
-    #include "Windows/PreWindowsApi.h"
+#if ENGINE_MAJOR_VERSION <5 || (ENGINE_MAJOR_VERSION == 5 && ENGINE_MINOR_VERSION < 4)
+	#include "Windows/PreWindowsApi.h"
+#endif
 #endif
 
 #include "DTrackSDK.hpp"
 
 #if PLATFORM_WINDOWS
+#if ENGINE_MAJOR_VERSION <5 || (ENGINE_MAJOR_VERSION == 5 && ENGINE_MINOR_VERSION < 4)
     #include "Windows/PostWindowsApi.h"
+#endif
     #include "Windows/HideWindowsPlatformTypes.h"
 #endif
 

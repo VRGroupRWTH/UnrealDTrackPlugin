@@ -268,7 +268,7 @@ void FDTrackFlystickInputDevice::on_livelink_subject_added_handler(FLiveLinkSubj
 	}
 
 #if  ENGINE_MAJOR_VERSION == 5 
-	TSubclassOf<ULiveLinkRole> subject_role = m_livelink_client->GetSubjectRole_AnyThread(n_subject_key.SubjectName);
+	TSubclassOf<ULiveLinkRole> subject_role = m_livelink_client->GetSubjectRole_AnyThread(n_subject_key);
 #else
 	TSubclassOf<ULiveLinkRole> subject_role = m_livelink_client->GetSubjectRole(n_subject_key.SubjectName);
 #endif

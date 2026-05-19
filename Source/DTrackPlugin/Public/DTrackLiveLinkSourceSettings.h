@@ -60,10 +60,10 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Server Settings", meta = (DisplayName = "DTrack Data Port", ToolTip = "Port your server sends data to"))
 	int32 m_dtrack_server_port = 5000;
 
-	//UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Server Settings", meta = (DisplayName = "Start DTrack Measurement", ToolTip = "Start measurement via the DTrack2 TCP command channel"))
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Server Settings", meta = (DisplayName = "Start DTrack Measurement", ToolTip = "Start measurement via the DTrack2 TCP command channel"))
 	bool m_dtrack_start_mea = false;
 	
-	//UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Server Settings", meta = (DisplayName = "Use tactile feedback for fingertracking", ToolTip = "Start DTrack with tactile feedback for fingertracking"))
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Server Settings", meta = (DisplayName = "Use tactile feedback for fingertracking", ToolTip = "Start DTrack with tactile feedback for fingertracking"))
 	bool m_dtrack_tactile_fingers = false;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Server Settings", meta = (DisplayName = "DTrack Server IP", ToolTip = "IP of DTrack server host for starting measurement"))

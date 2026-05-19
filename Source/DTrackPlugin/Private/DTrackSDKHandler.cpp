@@ -28,6 +28,7 @@
 #include "DTrackPlugin.h"
 
 #include "DTrackLiveLinkSource.h"
+#include "DTrackPlugin.h"
 #include "HAL/RunnableThread.h"
 #include "Math/UnrealMathUtility.h"
 
@@ -101,6 +102,12 @@ void FDTrackSDKHandler::stop_listening() {
 
 		m_thread.Reset();
 	}
+}
+
+
+bool FDTrackSDKHandler::get_body_name(uint32 body_index, std::string& body_name)
+{
+	return m_dtrack->getParam(TCHAR_TO_UTF8(*FString::Printf(TEXT("body desc standard b%02d"), body_index + 1)), body_name);
 }
 
 bool FDTrackSDKHandler::is_active() const {

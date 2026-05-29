@@ -129,8 +129,6 @@ void FDTrackFlystickInputDevice::Tick(float DeltaTime) {
 
 void FDTrackFlystickInputDevice::SendControllerEvents()
 {
-	if (true)
-		return;
 	// check if current flystick index is a valid flystick
 	if (!m_flysticks.IsValidIndex(m_active_flystick_index))
 	{

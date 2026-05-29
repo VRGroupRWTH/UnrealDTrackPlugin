@@ -57,9 +57,10 @@ const FKey FDTrackInputKey::Flystick_JoystickY( "Flystick_JoystickY" );
 
 FDTrackFlystickInputDevice::FDTrackFlystickInputDevice(const TSharedRef< FGenericApplicationMessageHandler >& InMessageHandler) 
 	: m_livelink_client(nullptr)
+	, m_active_flystick_index(0)
 	, m_message_handler(InMessageHandler)
-	, m_initial_button_repeat_delay(0.2f)
-	, m_button_repeat_delay(0.1f) {
+	, m_initial_button_repeat_delay(0.2f) 
+	, m_button_repeat_delay(0.1f){
 
 	IModularFeatures& ModularFeatures = IModularFeatures::Get();
 	if (ModularFeatures.IsModularFeatureAvailable(ILiveLinkClient::ModularFeatureName)) {
@@ -128,18 +129,28 @@ void FDTrackFlystickInputDevice::Tick(float DeltaTime) {
 
 void FDTrackFlystickInputDevice::SendControllerEvents()
 {
+	if (true)
+		return;
+	// check if current flystick index is a valid flystick
+	if (!m_flysticks.IsValidIndex(m_active_flystick_index))
+	{
+		return;
+	}
+	
 #if  ENGINE_MAJOR_VERSION >= 5
 	//FPlatformUserId UserId = FPlatformMisc::GetPlatformUserForUserIndex( LocalUserIndex );		// TODO
 	FPlatformUserId UserId = IPlatformInputDeviceMapper::Get().GetPrimaryPlatformUser();
 	FInputDeviceId DeviceId = INPUTDEVICEID_NONE;
 #endif
 
-	const double current_time = FPlatformTime::Seconds();
+	const double current_time = FPlatformTime::Seconds();	
 
-	for (TPair<FName, FFlystickState>& pair : m_flystick_state)	
+	const FName& flystick_name = m_flysticks[m_active_flystick_index].SubjectName.Name;
+
+	// only evaluate controller events for the currently active flystick
+	if (FFlystickState* flystick_state_ptr = m_flystick_states.Find(flystick_name))	
 	{
-		const FName& flystick_name = pair.Key;
-		FFlystickState& flystick_state = pair.Value;
+		FFlystickState& flystick_state = *flystick_state_ptr;
 
 		FLiveLinkSubjectFrameData frame_data;
 		if (m_livelink_client->EvaluateFrame_AnyThread(flystick_name, UDTrackFlystickInputRole::StaticClass(), frame_data))
@@ -157,6 +168,12 @@ void FDTrackFlystickInputDevice::SendControllerEvents()
 
 #if  ENGINE_MAJOR_VERSION >= 5
 			IPlatformInputDeviceMapper::Get().RemapControllerIdToPlatformUserAndDevice( flystick_static_data->m_flystick_id, UserId, DeviceId );
+			
+			// If the input device hasn't been mapped yet, we should map a dummy input device to it, otherwise we get a crash later on
+			if (!IPlatformInputDeviceMapper::Get().GetUserForInputDevice(DeviceId).IsValid())
+			{
+				IPlatformInputDeviceMapper::Get().Internal_MapInputDeviceToUser(DeviceId, UserId, EInputDeviceConnectionState::Connected);
+			}
 #endif
 			//Process buttons
 			for (int32 i = 0; i < flystick_frame_data->m_button_state.Num(); ++i) 
@@ -244,6 +261,18 @@ void FDTrackFlystickInputDevice::SetChannelValues(int32 ControllerId, const FFor
 
 }
 
+void FDTrackFlystickInputDevice::SetDeviceProperty(int32 ControllerId, const FInputDeviceProperty* Property)
+{
+	IInputDevice::SetDeviceProperty(ControllerId, Property);
+	if (Property->Name == FInputDeviceFlystickIndexProperty::PropertyName())
+	{
+		const FInputDeviceFlystickIndexProperty* FlystickIndexProperty = static_cast<const FInputDeviceFlystickIndexProperty*>(Property);
+		m_active_flystick_index = FlystickIndexProperty->FlystickIndex;
+		UE_LOG(LogDTrackInput, Display, TEXT("Flystick index changed to '%d'."), m_active_flystick_index);
+
+	}
+}
+
 void FDTrackFlystickInputDevice::register_with_livelink() {
 
 	m_livelink_client = &IModularFeatures::Get().GetModularFeature<ILiveLinkClient>(ILiveLinkClient::ModularFeatureName);
@@ -279,7 +308,7 @@ void FDTrackFlystickInputDevice::on_livelink_subject_added_handler(FLiveLinkSubj
 	if (subject_role->IsChildOf(UDTrackFlystickInputRole::StaticClass())  &&  m_flysticks.Num() < MAX_NUM_FLYSTICK)
 	{
 		m_flysticks.Add(n_subject_key);
-		m_flystick_state.Add(n_subject_key.SubjectName);
+		m_flystick_states.Add(n_subject_key.SubjectName);
 	}
 }
 
@@ -291,5 +320,5 @@ void FDTrackFlystickInputDevice::on_livelink_subject_removed_handler(FLiveLinkSu
 		m_flysticks.RemoveSingleSwap(*subject_ptr);
 	}
 
-	m_flystick_state.Remove(n_subject_key.SubjectName);
+	m_flystick_states.Remove(n_subject_key.SubjectName);
 }

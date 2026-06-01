@@ -28,15 +28,31 @@
 
 #include "IInputDevice.h"
 #include "LiveLinkTypes.h"
+#include "GenericPlatform/IInputInterface.h"
 
 
 // Only one FlyStick supported in current version
-#define MAX_NUM_FLYSTICK 1
+#define MAX_NUM_FLYSTICK 3
 
 
 class ILiveLinkClient;
 class IModularFeature;
 
+struct FInputDeviceFlystickIndexProperty : public FInputDeviceProperty
+{
+	FInputDeviceFlystickIndexProperty()
+		: FInputDeviceProperty(PropertyName())
+	{}
+	
+	FInputDeviceFlystickIndexProperty(int32 FlystickIndex)
+		: FInputDeviceProperty(PropertyName())
+		, FlystickIndex(FlystickIndex)
+	{}
+	static FName PropertyName() { return FName("FlystickIndex"); }
+
+	/** Which flystick should be the active one */
+	int32 FlystickIndex = 0;
+};
 
 /**
  * Handles Flystick subject data and generate input events
@@ -59,6 +75,7 @@ public:
 	virtual bool Exec(UWorld* InWorld, const TCHAR* Cmd, FOutputDevice& Ar) override;
 	virtual void SetChannelValue(int32 ControllerId, FForceFeedbackChannelType ChannelType, float Value) override;
 	virtual void SetChannelValues(int32 ControllerId, const FForceFeedbackValues &values) override;
+	virtual void SetDeviceProperty(int32 ControllerId, const FInputDeviceProperty* Property) override;
 	//~End IInputDevice interface
 
 protected:
@@ -95,13 +112,16 @@ protected:
 	TArray<FGamepadKeyNames::Type> m_joystick_mapping;
 
 	/** Controller states */
-	TMap<FName, FFlystickState> m_flystick_state;
+	TMap<FName, FFlystickState> m_flystick_states;
 
 	// LiveLink client to fetch data from our subject
 	ILiveLinkClient* m_livelink_client;
 
 	//List of registered flystick subjects
 	TArray<FLiveLinkSubjectKey> m_flysticks;
+	
+	// index of the desired flystick in case more than one is used.
+	int32 m_active_flystick_index;
 
 	/** handler to send all messages to */
 	TSharedRef<FGenericApplicationMessageHandler> m_message_handler;
